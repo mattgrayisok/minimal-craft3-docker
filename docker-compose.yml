@@ -1,0 +1,55 @@
+version: '2'
+services:
+  nginx:
+      build:
+        context: .
+        dockerfile: ./.docker-config/nginx/Dockerfile
+      ports:
+          - 80:80
+      volumes:
+          - ./src/web:/var/www/html/web
+
+  php:
+      build:
+        context: .
+        dockerfile: ./.docker-config/php/Dockerfile
+      expose:
+          - 9000
+      volumes:
+          - ./src/config:/var/www/html/config
+          - ./src/templates:/var/www/html/templates
+          - ./src/modules:/var/www/html/modules
+          - ./src/web:/var/www/html/web
+          - ./src/composer.json:/var/www/html/composer.json
+      environment:
+        ENVIRONMENT: dev
+        DB_DRIVER: mysql
+        DB_SERVER: database
+        DB_USER: project
+        DB_PASSWORD: project
+        DB_DATABASE: project
+        DB_TABLE_PREFIX: craft_
+        SITE_URL: http://localhost
+        SECURITY_KEY: asdfasdfasdfasdfasdf
+
+  database:
+      image: mariadb:10.3
+      volumes:
+          - db-data:/var/lib/database
+      ports:
+          - 3306:3306
+      environment:
+          MYSQL_ROOT_PASSWORD: secret
+          MYSQL_DATABASE: project
+          MYSQL_USER: project
+          MYSQL_PASSWORD: project
+
+  phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      ports:
+          - 8085:80
+      environment:
+          PMA_HOST: database
+
+volumes:
+  db-data:

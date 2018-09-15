@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="referrer" content="origin-when-cross-origin" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/app.css">
+</head>
+<body>
+    <div id="container" class="container">
+
+            {% include '_header' %}
+
+    		<main class="content" id="content" role="main">
+
+				{% block content %}
+					<!-- Layout loaded with no content block set -->
+				{% endblock %}
+
+    		</main>
+
+    		{% include '_footer' %}
+
+    	</div>
+
+        <script src="/assets/js/app.js"></script>
+</body>
+</html>
